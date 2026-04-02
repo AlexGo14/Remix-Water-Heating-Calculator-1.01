@@ -4,15 +4,26 @@
  */
 
 import { useState, useMemo } from "react";
-import { Thermometer, Droplets, Zap, CreditCard, Clock, Info } from "lucide-react";
+import { Thermometer, Droplets, Zap, CreditCard, Clock, Info, ExternalLink, Smartphone, Globe, FileCode } from "lucide-react";
 import { motion } from "motion/react";
 
+type Platform = "web" | "standalone" | "android";
+
 export default function App() {
+  const [platform, setPlatform] = useState<Platform>("web");
   const [minTemp, setMinTemp] = useState<number>(15);
   const [maxTemp, setMaxTemp] = useState<number>(60);
   const [volume, setVolume] = useState<number>(50);
   const [power, setPower] = useState<number>(2);
   const [price, setPrice] = useState<number>(5.5);
+
+  const titleColor = useMemo(() => {
+    switch (platform) {
+      case "standalone": return "text-red-600";
+      case "android": return "text-green-700";
+      default: return "text-blue-600";
+    }
+  }, [platform]);
 
   const results = useMemo(() => {
     const deltaT = Math.max(0, maxTemp - minTemp);
@@ -36,15 +47,54 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
+        {/* Platform Switcher */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-8 p-1 bg-slate-200/50 rounded-2xl w-fit mx-auto border border-slate-200">
+          <button
+            onClick={() => setPlatform("web")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${platform === "web" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+          >
+            <Globe className="w-4 h-4" />
+            Web (Blue)
+          </button>
+          <button
+            onClick={() => setPlatform("standalone")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${platform === "standalone" ? "bg-white text-red-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+          >
+            <FileCode className="w-4 h-4" />
+            Standalone (Red)
+          </button>
+          <button
+            onClick={() => setPlatform("android")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${platform === "android" ? "bg-white text-green-700 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+          >
+            <Smartphone className="w-4 h-4" />
+            Android (Green)
+          </button>
+          <div className="w-px h-6 bg-slate-300 mx-1 hidden md:block" />
+          <a
+            href="/standalone_calculator.html"
+            target="_blank"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 transition-all"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Открыть HTML
+          </a>
+        </div>
+
         <header className="mb-8 text-center">
           <motion.h1 
+            key={platform}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-4xl font-bold tracking-tight text-slate-800 mb-2"
+            className={`text-3xl md:text-4xl font-bold tracking-tight mb-2 ${titleColor}`}
           >
             Калькулятор нагрева воды
           </motion.h1>
-          <p className="text-slate-500">Рассчитайте затраты энергии, времени и денег на нагрев воды</p>
+          <p className="text-slate-500">
+            {platform === "android" ? "Мобильная версия (Android)" : 
+             platform === "standalone" ? "Автономная HTML версия" : 
+             "Рассчитайте затраты энергии, времени и денег на нагрев воды"}
+          </p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
