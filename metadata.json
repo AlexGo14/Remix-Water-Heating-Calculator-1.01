@@ -1,0 +1,5 @@
+{
+  "name": "Remix: Water Heating Calculator 1.01",
+  "description": "Calculate energy consumption, time, and cost for heating water based on volume, temperature change, and electricity price.",
+  "requestFramePermissions": []
+}

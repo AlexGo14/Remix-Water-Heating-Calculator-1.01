@@ -1,11 +1,21 @@
-<div align="center">
+# Калькулятор нагрева воды (Water Heating Calculator)
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Универсальный инструмент для расчета затрат энергии, времени и стоимости нагрева воды.
 
-  <h1>Built with AI Studio</h2>
+## Состав проекта:
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+1.  **Web App (React + Vite)**: Основное современное приложение.
+    *   Запуск: `npm install` -> `npm run dev`.
+2.  **Standalone HTML**: Один файл `standalone_calculator.html`, который работает в любом браузере без установки. Идеально для быстрой работы или пересылки.
+3.  **Android Project**: Исходный код мобильного приложения в папке `/android_project/`.
+    *   Стек: Kotlin, Jetpack Compose, Material Design 3.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Формула расчета:
+Расчет производится по физической формуле:
+`Q = m * c * ΔT`
+Где:
+*   `m` — масса воды (1 литр = 1 кг).
+*   `c` — удельная теплоемкость воды (4186 Дж/(кг·°C)).
+*   `ΔT` — разница температур.
 
-</div>
+Энергия переводится в кВт⋅ч для расчета стоимости по вашему тарифу.
